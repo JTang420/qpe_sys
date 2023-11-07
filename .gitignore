@@ -1,0 +1,10 @@
+doc/
+dist/
+data/
+build/
+
+*.nc
+*.pyc
+*.ipynb
+.*.py
+.*.json
