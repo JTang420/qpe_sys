@@ -1,7 +1,9 @@
 doc/
 dist/
 data/
+test/
 build/
+*.egg-info/
 
 *.nc
 *.pyc
