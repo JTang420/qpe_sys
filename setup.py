@@ -17,7 +17,10 @@ metainfo = {
         'pandas==2.1.2',
         'xarray==2023.10.1',
         'scipy==1.11.3',
-        'setuptools>=18.0'
+        'setuptools>=18.0',
+        'pyzstd==0.15.9',
+        'numba==1.26.1',
+        'google==3.0.0',
       ]
 }
 

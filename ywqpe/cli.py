@@ -11,7 +11,6 @@ import pandas as pd
 from ywqpe import core
 from datetime import datetime
 from nrsproto.nrsbase_pb2 import *
-from google.protobuf.json_format import MessageToJson
 
 
 def sendReq(query, req:NrsReq):
