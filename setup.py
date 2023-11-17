@@ -20,7 +20,7 @@ metainfo = {
         'setuptools>=18.0',
         'pyzstd==0.15.9',
         'numba==1.26.1',
-        'google==3.0.0',
+        'protobuf==4.25.0',
       ]
 }
 
