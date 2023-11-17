@@ -19,7 +19,7 @@ metainfo = {
         'scipy==1.11.3',
         'setuptools>=18.0',
         'pyzstd==0.15.9',
-        'numba==1.26.1',
+        'numba==0.58.1',
         'protobuf==4.25.0',
       ]
 }
