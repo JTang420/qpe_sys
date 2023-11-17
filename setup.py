@@ -1,7 +1,5 @@
 # -*- coding: UTF-8 -*-
 from setuptools import setup, find_packages, Extension
-from Cython.Build import cythonize
-
 
 metainfo = {
     'name': 'ywqpe',
@@ -18,15 +16,17 @@ metainfo = {
         'numpy==1.26.1',
         'pandas==2.1.2',
         'xarray==2023.10.1',
-        'scipy==1.11.3'
+        'scipy==1.11.3',
+        'setuptools>=18.0'
       ]
 }
 
 setup(
     packages=find_packages(
         exclude=['*.src', '*.tests', '*.script']),
-    ext_modules=cythonize(
-        [Extension('ywqpe.oi_core', ['src/oi_core.c'])]),
+    ext_modules=[
+        Extension('ywqpe.oi_core', sources=['src/oi_core.c'])
+    ],
     include_package_data=True,
     entry_points={
         'console_scripts': [
