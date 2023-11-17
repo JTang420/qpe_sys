@@ -40,7 +40,7 @@ def hsr_decode(fp):
     for iazi in range(0, azi_num):
         time[iazi] = iazi
         _ = f.read(64) # 读取当前径向的径向头数据
-        data_buf = struct.unpack(str(rng_num)+'B', f.read(rng_num)) # 读取当前径向的径向数据
+        data_buf = struct.unpack(str(rng_num)+'B', f.read(rng_num))  # 读取当前径向的径向数据
         for irng in range(0, rng_num):
             dbz[iazi, irng] = data_buf[irng]
 

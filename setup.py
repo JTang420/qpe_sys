@@ -17,6 +17,7 @@ metainfo = {
         'numpy==1.26.1',
         'pandas==2.1.2',
         'xarray==2023.10.1',
+        'scipy=1.11.3'
       ]
 }
 
