@@ -5,8 +5,10 @@ test/
 build/
 *.egg-info/
 
+*.c
 *.nc
+*.so
+.*.py
 *.pyc
 *.ipynb
-.*.py
 .*.json
