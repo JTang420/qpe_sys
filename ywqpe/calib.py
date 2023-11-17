@@ -1,6 +1,6 @@
 import numpy as np
 import xarray as xr
-from oi_core import oi_calib
+from ywqpe.oi_core import oi_calib
 
 
 def oi(da, df, **kargs):
