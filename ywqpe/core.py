@@ -83,8 +83,8 @@ def hybrid_proc(fp, max_rng=460e3, grid_reso=1e3):
     hsr_enu = xr.Dataset(data_vars={'dbz': (['y', 'x'], hsr_enu)}, 
                             coords={'x': ('x', xx[0, :]), 'y': ('y', yy[:, 1])},
                 attrs={'center_lon': hsr_dbz.rad_lon, 'center_lat': hsr_dbz.rad_lat, 'center_alt': hsr_dbz.rad_alt})
-    hsr_enu = hsr_enu.assign_coords(coords={'lon': ('x', lon), 'lat': ('y', lat)})
-    hsr_enu = hsr_enu.swap_dims({'x': 'lon', 'y': 'lat'})
+    hsr_enu = hsr_enu.assign_coords(coords={'longitude': ('x', lon), 'latitude': ('y', lat)})
+    hsr_enu = hsr_enu.swap_dims({'x': 'longitude', 'y': 'latitude'})
     return hsr_enu
 
 
@@ -108,7 +108,7 @@ def qpe(radar_fps, df, params):
     ds = xr.concat([hybrid_proc(fp) for fp in radar_fps], dim='valid_time')
 
     qpe_1h = _to_rain(ds.dbz.data, A=params.get('A', 300.), b=params.get('b', 1.4))
-    ds['qpe'] = (('lat', 'lon'), qpe_1h.mean(axis=0))
+    ds['qpe'] = (('latitude', 'longitude'), qpe_1h.mean(axis=0))
 
     # 自动站数据读取、处理
     # df = pd.read_csv(stn_file, usecols=['PRE', 'Lon', 'Station_Id_C', 'Lat', 'Datetime'], 
@@ -123,15 +123,15 @@ def qpe(radar_fps, df, params):
 
         # local calibrate # 利用分析格点搜索范围内(dis=0.2~20km)的自动站点进行分析格点降水订正
         qpe_oi = calib.oi(ds.qpe_g, df_1h, a=0.2, dis=params.get('dis', 0.2))
-        ds['qpe_oi'] = (('lat', 'lon'), qpe_oi)
+        ds['qpe_oi'] = (('latitude', 'longitude'), qpe_oi)
     else:
         print(f"not enough gauge={len(df_1h)}(>{params.get('stn_num', 30)})")
-    ds.attrs['lon_min'] = np.around(ds.lon.values[0], 3)
-    ds.attrs['lon_max'] = np.around(ds.lon.values[-1], 3)
-    ds.attrs['lat_min'] = np.around(ds.lat.values[0], 3)
-    ds.attrs['lat_max'] = np.around(ds.lat.values[-1], 3)
-    ds.attrs['LenofWin'] = np.around(ds.lon.values[1] - ds.lon.values[0], 2)
-    ds.attrs['stn_id'] = params.get('stationId', 'Z9280')
+    ds.attrs['longitude_min'] = np.around(ds.longitude.values[0], 3)
+    ds.attrs['longitude_max'] = np.around(ds.longitude.values[-1], 3)
+    ds.attrs['latitude_min'] = np.around(ds.latitude.values[0], 3)
+    ds.attrs['latitude_max'] = np.around(ds.latitude.values[-1], 3)
+    ds.attrs['LenofWin'] = np.around(ds.longitude.values[1] - ds.longitude.values[0], 2)
+    ds.attrs['radar_id'] = params.get('stationId', 'Z9280')
     if 'qpe_oi' in ds:
         ds_temp = ds[['qpe', 'qpe_oi']]
     else:

@@ -24,15 +24,14 @@ def oi(da, df, **kargs):
     a = kargs.get('a', 0.2)
     dis = kargs.get('dis', 0.1)
     choice = kargs.get('choice', 0)
-
     df['Rb'] = da.interp(
-            lon=xr.DataArray(df.lon, dims=('index')),
-            lat=xr.DataArray(df.lat, dims=('index')))\
+            longitude=xr.DataArray(df.lon, dims=('index')),
+            latitude=xr.DataArray(df.lat, dims=('index')))\
         .to_dataframe()[[da.name]]
     df = df.dropna()
 
     Ro = df[['lon', 'lat', 'rain', 'Rb']].values
-    Ra = oi_calib(da.lon.data, da.lat.data, da.data, Ro, a, dis, choice)
+    Ra = oi_calib(da.longitude.data, da.latitude.data, da.data, Ro, a, dis, choice)
     return Ra
 
 
@@ -51,8 +50,8 @@ def correct_factor(da, df):
     pd.DataFrame
 
     """
-    R0 = da.interp(lon=xr.DataArray(df.lon, dims=('index')), 
-                                    lat=xr.DataArray(df.lat, dims=('index')))
+    R0 = da.interp(longitude=xr.DataArray(df.lon, dims=('index')), 
+                   latitude=xr.DataArray(df.lat, dims=('index')))
     df['gi'] = df['rain'] / R0
     df = df.dropna()
     return df
@@ -74,8 +73,8 @@ def global_calibrate(da, df, K_min, K_max):
         new DataArray representing a calibrated QPE result
     """
     di = da.interp(
-            lon=xr.DataArray(df.lon, dims=('index')),
-            lat=xr.DataArray(df.lat, dims=('index')))\
+            longitude=xr.DataArray(df.lon, dims=('index')),
+            latitude=xr.DataArray(df.lat, dims=('index')))\
         .to_dataframe()
     di['rain'] = df.rain
     di = di.dropna()
@@ -85,4 +84,4 @@ def global_calibrate(da, df, K_min, K_max):
     else:
         K = 1.
     print(f'global correction factor: {K:.2f}')
-    return xr.DataArray(K * da.data, dims=['lat', 'lon'])
+    return xr.DataArray(K * da.data, dims=['latitude', 'longitude'])
