@@ -32,7 +32,7 @@ def hsr_decode(fp):
     # 产品数据
     refdt = os.path.split(fp)[1].split('.')[0]
     dbz = np.zeros((azi_num, rng_num), dtype='u1')
-    azimuth = np.array(np.arange(0, azi_num), dtype='f8')
+    azimuth = np.array(np.arange(0, 360, 360 / azi_num), dtype='f8')
     elevation = np.array(np.ones_like(azimuth) * 0.5, dtype='f8')
     rng = np.array(np.arange(rng_len, rng_num * rng_len + 1, rng_len), dtype='f8')
     time = np.array(np.arange(0, azi_num), dtype=np.float64)
