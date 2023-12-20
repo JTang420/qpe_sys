@@ -78,6 +78,7 @@ def global_calibrate(da, df, K_min, K_max):
         .to_dataframe()
     di['rain'] = df.rain
     di = di.dropna()
+    # di = di[di[da.name] > 0.]  # drop nan from radar qpe
     if len(di.index) > 0:
         K = di.rain.values.sum() / di[[da.name]].values.sum()
         K = np.clip(K, K_min, K_max)

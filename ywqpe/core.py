@@ -24,6 +24,7 @@ def _to_rain(dbz, A, b):
     """
     Z = np.power(10., dbz/10.)
     R = np.power(Z / A, 1. / b)
+    R = np.where(~np.isnan(R), R, 0.)
     return R
 
 
@@ -111,6 +112,7 @@ def qpe(radar_fps, df, params):
 
     qpe_1h = _to_rain(ds.dbz.data, A=params.get('A', 300.), b=params.get('b', 1.4))
     ds['qpe'] = (('latitude', 'longitude'), qpe_1h.mean(axis=0))
+    ds['qpe'].values = np.where(ds.qpe != 0., ds.qpe.values, np.nan)
 
     # 自动站数据读取、处理
     if len(df) > 0:  # 获取到自动站观测数据

@@ -46,7 +46,7 @@ def hsr_decode(fp):
 
     hybrid_dbz = xr.DataArray(dbz / 2 - 33, dims=('time', 'range'), name='dBZ',
                      coords=[('time', time), ('range', rng)])
-    t = datetime.strptime(os.path.split(fp)[1].split('.')[0], "%Y%m%d_%H%M%S")
+    t = datetime.strptime(os.path.split(fp)[1].split('_')[4], "%Y%m%d%H%M%S")
     hybrid_dbz = hybrid_dbz.expand_dims(valid_time=[t], axis=0)
     hybrid_dbz.coords['azimuth'] = (('time'), azimuth)
     hybrid_dbz.coords['elevation'] = (('time'), elevation)
